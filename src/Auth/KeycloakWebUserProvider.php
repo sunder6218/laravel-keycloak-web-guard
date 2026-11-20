@@ -88,6 +88,9 @@ class KeycloakWebUserProvider implements UserProvider
     /**
      * Rehash the user's password if required and supported.
      *
+     * Added for Laravel 11+ (UserProvider::rehashPasswordIfRequired). Keycloak users
+     * authenticate against Keycloak and have no local password, so this is a no-op.
+     *
      * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      * @param  array  $credentials
      * @param  bool  $force
@@ -95,6 +98,6 @@ class KeycloakWebUserProvider implements UserProvider
      */
     public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false)
     {
-        throw new \BadMethodCallException('Unexpected method [rehashPasswordIfRequired] call');
+        // Nothing to rehash.
     }
 }
