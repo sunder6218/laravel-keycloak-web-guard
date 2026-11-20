@@ -2,9 +2,11 @@
 
 namespace Vizir\KeycloakWebGuard\Auth\Guard;
 
+use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Vizir\KeycloakWebGuard\Auth\KeycloakAccessToken;
 use Vizir\KeycloakWebGuard\Exceptions\KeycloakCallbackException;
@@ -20,10 +22,15 @@ class KeycloakWebGuard implements Guard
     protected $user;
 
     /**
-     * Constructor.
-     *
-     * @param Request $request
+     * @var UserProvider
      */
+    protected $provider;
+
+    /**
+     * @var Request
+     */
+    protected $request;
+
     public function __construct(UserProvider $provider, Request $request)
     {
         $this->provider = $provider;
@@ -39,10 +46,13 @@ class KeycloakWebGuard implements Guard
     {
         return (bool) $this->user();
     }
-    
+
+    /**
+     * @return bool
+     */
     public function hasUser()
     {
-        return (bool) $this->user();
+        return (bool) $this->user;
     }
 
     /**
@@ -72,7 +82,7 @@ class KeycloakWebGuard implements Guard
     /**
      * Set the current user.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
      * @return void
      */
     public function setUser(?Authenticatable $user)
@@ -89,6 +99,16 @@ class KeycloakWebGuard implements Guard
     {
         $user = $this->user();
         return $user->id ?? null;
+    }
+
+    /**
+    * Disable viaRemember methode used by some bundles (like filament)
+    *
+    * @return bool
+    */
+    public function viaRemember()
+    {
+        return false;
     }
 
     /**
@@ -119,7 +139,7 @@ class KeycloakWebGuard implements Guard
      * Try to authenticate the user
      *
      * @throws KeycloakCallbackException
-     * @return boolean
+     * @return bool
      */
     public function authenticate()
     {
@@ -144,15 +164,17 @@ class KeycloakWebGuard implements Guard
         $user = $this->provider->retrieveByCredentials($user);
         $this->setUser($user);
 
+        event(new Authenticated(Auth::getDefaultDriver(), Auth()->user()));
+
         return true;
     }
-    
+
     /**
      * Check user is authenticated and return his resource roles
      *
      * @param string $resource Default is empty: point to client_id
      *
-     * @return array
+     * @return bool|array
     */
     public function roles($resource = '')
     {
@@ -177,7 +199,10 @@ class KeycloakWebGuard implements Guard
         $resourceRoles = $resourceRoles[ $resource ] ?? [];
         $resourceRoles = $resourceRoles['roles'] ?? [];
 
-        return $resourceRoles;
+        $realmRoles = $token['realm_access'] ?? [];
+        $realmRoles = $realmRoles['roles'] ?? [];
+
+        return array_merge($resourceRoles, $realmRoles);
     }
 
     /**
@@ -186,7 +211,7 @@ class KeycloakWebGuard implements Guard
      * @param array|string $roles
      * @param string $resource Default is empty: point to client_id
      *
-     * @return boolean
+     * @return bool
      */
     public function hasRole($roles, $resource = '')
     {

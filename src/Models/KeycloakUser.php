@@ -25,6 +25,16 @@ class KeycloakUser implements Authenticatable
     protected $attributes = [];
 
     /**
+     * @var mixed
+     */
+    protected $id;
+
+    /**
+     * @var mixed|null
+     */
+    protected $email;
+
+    /**
      * Constructor
      *
      * @param array $profile Keycloak user info
@@ -149,5 +159,16 @@ class KeycloakUser implements Authenticatable
     public function getRememberTokenName()
     {
         throw new \BadMethodCallException('Unexpected method [getRememberTokenName] call');
+    }
+
+    /**
+     * Get the name of the password attribute for the user.
+     *
+     * @return string
+     * @codeCoverageIgnore
+     */
+    public function getAuthPasswordName()
+    {
+        throw new \BadMethodCallException('Unexpected method [getAuthPasswordName] call');
     }
 }

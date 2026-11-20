@@ -49,7 +49,7 @@ return [
      *
      * @see Vizir\KeycloakWebGuard\Controllers\AuthController::callback()
      */
-    'redirect_url' => '/admin',
+    'redirect_url' => env('KEYCLOAK_REDIRECT_URL', '/admin'),
 
     /**
      * The routes for authenticate
@@ -73,4 +73,11 @@ return [
     * @link http://docs.guzzlephp.org/en/stable/request-options.html
     */
    'guzzle_options' => [],
+
+    /**
+     * Keycloak optional scopes
+     *
+     * array of strings
+     */
+    'scopes' => [],
 ];
