@@ -38,6 +38,18 @@ class KeycloakWebGuard implements Guard
     }
 
     /**
+     * Get the user provider used by the guard.
+     *
+     * Third-party listeners (e.g. Adldap2-Laravel) call Auth::guard()->getProvider().
+     *
+     * @return UserProvider
+     */
+    public function getProvider()
+    {
+        return $this->provider;
+    }
+
+    /**
      * Determine if the current user is authenticated.
      *
      * @return bool
