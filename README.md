@@ -1,6 +1,6 @@
 <p align="center">
-    <img src="https://img.shields.io/packagist/v/vizir/laravel-keycloak-web-guard.svg" />
-    <img src="https://img.shields.io/packagist/dt/vizir/laravel-keycloak-web-guard.svg" />
+    <img src="https://img.shields.io/packagist/v/sunder6218/laravel-keycloak-web-guard.svg" />
+    <img src="https://img.shields.io/packagist/dt/sunder6218/laravel-keycloak-web-guard.svg" />
 </p>
 
 # Keycloak Web Guard for Laravel
@@ -46,7 +46,7 @@ This fork now supports **Laravel 13** and **PHP 8.5**, and includes security fix
 Require the package
 
 ```
-composer require vizir/laravel-keycloak-web-guard
+composer require sunder6218/laravel-keycloak-web-guard
 ```
 
 If you want to change routes or the default values for Keycloak, publish the config file:
