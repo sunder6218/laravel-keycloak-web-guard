@@ -1,7 +1,7 @@
 {
     "name": "vizir/laravel-keycloak-web-guard",
     "description": "Simple Keycloak Guard to Laravel Web Routes",
-    "homepage": "https://github.com/Vizir/laravel-keycloak-web-guard",
+    "homepage": "https://github.com/sunder6218/laravel-keycloak-web-guard",
     "license": "MIT",
     "keywords": [
         "laravel",
@@ -11,8 +11,8 @@
     ],
     "authors": [
         {
-            "name": "Mário Valney",
-            "email": "mariovalney@gmail.com"
+            "name": "Sunder S",
+            "email": "sunder@sinch.com"
         }
     ],
     "minimum-stability": "dev",

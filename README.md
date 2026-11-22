@@ -18,10 +18,17 @@ It works on front. For APIs we recommend [laravel-keycloak-guard](https://github
 
 This package was tested with:
 
-* Laravel: 5.8 / 7 / 8 / 9 / 10 / 11
+* Laravel: 5.8 / 7 / 8 / 9 / 10 / 11 / 13
+* PHP: up to 8.5
 * Keycloak: 18.0.0
 
 Any other version is not guaranteed to work.
+
+### What's new
+
+This fork now supports **Laravel 13** and **PHP 8.5**, and includes security fixes.
+
+* Added the `rehashPasswordIfRequired` method to the user provider and `getAuthPasswordName` to the user model, as required by Laravel 11+ contracts (both are no-ops/defaults, since Keycloak users have no local password).
 
 *This is project is open source and maintained on my free time. So, if you have any problem you can open a Issue with all details (laravel version, keycloak version, the description of problem...) and I'll be happy to try to help.*
 
